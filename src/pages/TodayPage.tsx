@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import type { ReturnTypeUseAppData } from "./pageTypes";
 import { formatShortDuration } from "../lib/utils";
 import type { Activity } from "../types";
+import { EnableNotifications } from "../components/EnableNotifications";
 
 type Props = {
   app: ReturnTypeUseAppData;
@@ -47,8 +48,11 @@ export function TodayPage({ app }: Props) {
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
         Today
       </p>
+
       <h1 className="mt-1 text-3xl font-bold">{dateLabel}</h1>
       <p className="mt-2 text-stone-600">You can come back later. Your progress is still here.</p>
+              <EnableNotifications />
+
         {app.activeTimer && (
   <button
     onClick={() => navigate("/timer")}
