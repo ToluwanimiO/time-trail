@@ -5,6 +5,7 @@ import {
   getLocalDateKey,
   getSessionTotal,
 } from "../lib/utils";
+import { showSessionNotification } from "../lib/sessionNotification";
 
 const STORAGE_KEY = "make-time:v1";
 
@@ -68,14 +69,27 @@ export function useAppData() {
     }));
   }
 
-  function startTimer(activityId: string) {
+  async function startTimer(activityId: string) {
+    const savedStartTimestamp = new Date().toISOString();
+     const activityName = data.activities.find(
+      (item) => item.id === activityId
+    )?.name;
     setData((current) => ({
       ...current,
       activeTimer: {
         activityId,
+        activityName: activityName || "",
         startedAt: new Date().toISOString(),
       },
     }));
+    try {
+  await showSessionNotification(
+    activityName || "Activity",
+    savedStartTimestamp
+  );
+} catch (error) {
+  console.error("Could not show session notification:", error);
+}
   }
 
   function pauseTimer() {
