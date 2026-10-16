@@ -36,12 +36,19 @@ export async function showSessionNotification(
   }
 
   const registration = await navigator.serviceWorker.ready;
-
+  const date = new Date(startedAt).toLocaleString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  })
 
   await registration.showNotification(
     `${activityName} timer is running`,
     {
-      body: `Started at ${startedAt}. Tap to return to your timer.`,
+      body: `Started at ${date}. Tap to return to your timer.`,
       icon: "/icons/icon-192.png",
       tag: SESSION_NOTIFICATION_TAG,
       data: {
