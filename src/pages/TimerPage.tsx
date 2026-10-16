@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { ReturnTypeUseAppData } from "./pageTypes";
 import { formatShortDuration, formatTimer } from "../lib/utils";
+import { FloatingTimer } from "../components/FloatingTimer";
 
 type Props = {
   app: ReturnTypeUseAppData;
@@ -31,7 +32,6 @@ export function TimerPage({ app }: Props) {
       </section>
     );
   }
-
   const activity = app.activities.find(
     (item) => item.id === app.activeTimer?.activityId
   );
@@ -54,6 +54,16 @@ export function TimerPage({ app }: Props) {
 
   return (
     <section className="flex min-h-[80vh] flex-col px-5 py-7">
+      <FloatingTimer
+  activityName={activity.name}
+  elapsedSeconds={currentSession}
+  dailyProgressLabel={`${todayTotal} / ${activity.targetMinutes}m`}
+  isRunning={Boolean(app.activeTimer)}
+  onPause={()=>{
+    app.pauseTimer();
+          navigate("/");
+  }}
+/>
       <button
         onClick={() => navigate("/")}
         className="flex w-fit items-center gap-2 text-sm font-semibold text-stone-600"
@@ -97,5 +107,6 @@ export function TimerPage({ app }: Props) {
         Pause
       </button>
     </section>
+    
   );
 }

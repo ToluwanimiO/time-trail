@@ -8,7 +8,20 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      strategies: "injectManifest",
+      srcDir: "src",
+      filename: "sw.ts",
+
+      // Let the plugin register this worker.
+      injectRegister: "auto",
+      registerType: "autoUpdate",
+
+      injectManifest: {
+        globPatterns: [
+          "**/*.{js,css,html,ico,png,svg,webp,woff2}",
+        ],
+      },
+
       includeAssets: ['icons/icon-192.png', 'icons/icon-512.png'],
       manifest: {
         name: 'TimeTrail',
@@ -32,9 +45,9 @@ export default defineConfig({
           }
         ]
       },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}']
-      }
+      // workbox: {
+      //   globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}']
+      // }
     })
   ],
   server: { port: 3000, host: true }
